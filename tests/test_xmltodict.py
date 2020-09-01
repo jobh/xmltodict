@@ -449,3 +449,12 @@ class XMLToDictTestCase(unittest.TestCase):
             }
         }
         self.assertEqual(parse(xml, process_comments=True), expectedResult)
+
+    def test_defaultdict_as_dict_constructor(self):
+        xml = """
+        <root>a</root>
+        """
+        expectedResult = {'root': 'a'}
+        def dict_constructor(*args, **kwargs):
+            return collections.defaultdict(lambda: None, *args, **kwargs)
+        self.assertEqual(dict(parse(xml, dict_constructor=dict_constructor)), expectedResult)
